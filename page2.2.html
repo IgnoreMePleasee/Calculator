@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Tính</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen flex flex-col gap-10 items-center p-4 ">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-center h-fit relative">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8">Chọn ngày</h1>
+        <fieldset class="mb-4 text-left">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                    <input checked type="radio" id="today" name="dateSelection" value="0" class="hidden peer" disabled>
+                    <label for="today" class="inline-flex items-center justify-center w-full py-2 px-4
+                    border border-blue-700 rounded-md cursor-pointer
+                    text-blue-700 bg-white font-bold text-sm
+                    transition-colors duration-200 ease-in-out
+                    peer-checked:bg-blue-700 peer-checked:text-white
+                    peer-checked:border-blue-700
+                    hover:bg-blue-50 hover:text-blue-700
+                    peer-checked:hover:bg-blue-600 peer-checked:hover:text-white
+                    peer-disabled:opacity-50 peer-disabled:cursor-not-allowed
+                    peer-disabled:border-blue-400 peer-disabled:text-blue-400 peer-disabled:bg-blue-100
+                    select-none">
+                        ??/??/????
+                    </label>
+                </div>
+
+                <div>
+                    <input type="radio" id="tommorow" name="dateSelection" value="1" class="hidden peer" disabled>
+                    <label for="tommorow" class="inline-flex items-center justify-center w-full py-2 px-4
+                    border border-blue-700 rounded-md cursor-pointer
+                    text-blue-700 bg-white font-bold text-sm
+                    transition-colors duration-200 ease-in-out
+                    peer-checked:bg-blue-700 peer-checked:text-white
+                    peer-checked:border-blue-700
+                    hover:bg-blue-50 hover:text-blue-700
+                    peer-checked:hover:bg-blue-600 peer-checked:hover:text-white
+                    peer-disabled:opacity-50 peer-disabled:cursor-not-allowed
+                    peer-disabled:border-blue-400 peer-disabled:text-blue-400 peer-disabled:bg-blue-100
+                    select-none">
+                        ??/??/????
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+
+        <div id="locationInfo" class="block text-gray-700 text-sm font-medium mt-2">Đang tìm kiếm dữ liệu . . .
+        </div>
+    </div>
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-center h-fit relative">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Bảng Tính</h1>
+        <div class="mb-6">
+            <label for="textInput" class="block text-gray-700 text-sm font-medium mb-2">
+                Nhập dữ liệu vào:
+            </label>
+            <textarea type="text" id="textInput" rows="5" placeholder="Nhập gì đó..."
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"></textarea>
+        </div>
+        <button id="deleteButton"
+            class="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white font-semibold size-8 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+            &#x2715;
+        </button>
+    </div>
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-center h-fit relative">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Chọn miền</h1>
+        <div class="mb-6">
+            <fieldset class="mb-4 text-left">
+                <legend class="block text-gray-700 text-sm font-bold mb-3">Chọn miền cần tính:</legend>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div>
+                        <input checked type="radio" id="mienBac" name="selectLocation" value="0" class="hidden peer"
+                            disabled> <label for="mienBac" class="inline-flex items-center justify-center w-full py-2 px-4
+                    border border-blue-700 rounded-md cursor-pointer
+                    text-blue-700 bg-white font-bold text-sm
+                    transition-colors duration-200 ease-in-out
+                    peer-checked:bg-blue-700 peer-checked:text-white
+                    peer-checked:border-blue-700
+                    hover:bg-blue-50 hover:text-blue-700
+                    peer-checked:hover:bg-blue-600 peer-checked:hover:text-white
+                    peer-disabled:opacity-50 peer-disabled:cursor-not-allowed
+                    peer-disabled:border-blue-400 peer-disabled:text-blue-400 peer-disabled:bg-blue-100
+                    select-none"> Miền Bắc
+                        </label>
+                    </div>
+
+                    <div>
+                        <input type="radio" id="mienTrung" name="selectLocation" value="1" class="hidden peer" disabled>
+                        <label for="mienTrung" class="inline-flex items-center justify-center w-full py-2 px-4
+                    border border-blue-700 rounded-md cursor-pointer
+                    text-blue-700 bg-white font-bold text-sm
+                    transition-colors duration-200 ease-in-out
+                    peer-checked:bg-blue-700 peer-checked:text-white
+                    peer-checked:border-blue-700
+                    hover:bg-blue-50 hover:text-blue-700
+                    peer-checked:hover:bg-blue-600 peer-checked:hover:text-white
+                    peer-disabled:opacity-50 peer-disabled:cursor-not-allowed
+                    peer-disabled:border-blue-400 peer-disabled:text-blue-400 peer-disabled:bg-blue-100
+                    select-none">
+                            Miền Trung
+                        </label>
+                    </div>
+
+                    <div>
+                        <input type="radio" id="mienNam" name="selectLocation" value="2" class="hidden peer" disabled>
+                        <label for="mienNam" class="inline-flex items-center justify-center w-full py-2 px-4
+                    border border-blue-700 rounded-md cursor-pointer
+                    text-blue-700 bg-white font-bold text-sm
+                    transition-colors duration-200 ease-in-out
+                    peer-checked:bg-blue-700 peer-checked:text-white
+                    peer-checked:border-blue-700
+                    hover:bg-blue-50 hover:text-blue-700
+                    peer-checked:hover:bg-blue-600 peer-checked:hover:text-white
+                    peer-disabled:opacity-50 peer-disabled:cursor-not-allowed
+                    peer-disabled:border-blue-400 peer-disabled:text-blue-400 peer-disabled:bg-blue-100
+                    select-none">
+                            Miền Nam
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-center h-fit relative">
+        <div class="flex gap-4 justify-center">
+            <button id="selfEdit" disabled class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                   disabled:opacity-50 disabled:cursor-not-allowed">
+                Tự sửa
+            </button>
+        </div>
+    </div>
+
+    <div id="removalContainer"
+        class="bg-white p-8 hidden rounded-xl shadow-lg w-full max-w-md text-center h-fit relative">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Dữ liệu ban đầu:</h1>
+        <div class="mb-6">
+            <p id="removedItemsDisplay" class="text-red-600 font-semibold mt-4"></p>
+        </div>
+    </div>
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-center h-fit">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8">Hằng số</h1>
+        <div class="mb-4">
+            <label for="ab" class="block text-gray-700 text-sm font-semibold mb-2 text-left">
+                Giá trị AB:
+            </label>
+            <input type="number" id="ab"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                placeholder="Nhập giá trị AB" value="73" />
+        </div>
+        <div class="mb-4">
+            <label for="c2" class="block text-gray-700 text-sm font-semibold mb-2 text-left">
+                Giá trị C2:
+            </label>
+            <input type="number" id="c2"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                placeholder="Nhập giá trị C2" value="14.6" />
+        </div>
+        <div class="mb-4">
+            <label for="c3" class="block text-gray-700 text-sm font-semibold mb-2 text-left">
+                Giá trị C3:
+            </label>
+            <input type="number" id="c3"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                placeholder="Nhập giá trị C3" value="13" />
+        </div>
+        <div class="mb-4">
+            <label for="d" class="block text-gray-700 text-sm font-semibold mb-2 text-left">
+                Giá trị đá:
+            </label>
+            <input type="number" id="d"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                placeholder="Nhập giá trị đá" value="39" />
+        </div>
+    </div>
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-center h-fit relative">
+        <div class="flex gap-4 justify-center">
+            <button id="processButton" disabled class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                   disabled:opacity-50 disabled:cursor-not-allowed">
+                Đợi chút
+            </button>
+        </div>
+    </div>
+
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-center h-fit relative">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Tổng kết</h1>
+        <div class="overflow-x-auto rounded-lg shadow-md">
+            <table id="summaryTable" class="w-full table-fixed text-sm text-gray-700">
+                <thead class="bg-blue-600 text-white uppercase tracking-wider">
+                    <tr>
+                        <th class="p-3 text-center font-semibold rounded-tl-lg">Xác</th>
+                        <th class="p-3 text-center font-semibold">Qua Cò</th>
+                        <th class="p-3 text-center font-semibold rounded-tr-lg">Trúng</th>
+                    </tr>
+                </thead>
+                <tbody id="summaryTableBody">
+                    <tr id="emptyTableRow" class="bg-white border-b border-gray-200">
+                        <td class="p-3 text-center text-gray-500" colspan="3">Chưa có dữ liệu.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-center h-fit">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Bảng chi tiết</h1>
+        <div class="overflow-x-auto rounded-lg shadow-lg">
+            <table class="w-full text-sm table-fixed text-gray-700 rounded-lg overflow-hidden">
+                <thead class="bg-blue-600 border-2 border-blue-600 text-white uppercase tracking-wider">
+                    <tr>
+                        <th class="p-4 text-center font-bold">Xác</th>
+                        <th class="p-4 text-center font-bold">Qua Cò</th>
+                        <th class="p-4 text-center font-bold">Trúng</th>
+                    </tr>
+                </thead>
+                <tbody id="detailedTableBody">
+                    <tr id="emptyTableRow" class="bg-white border-b border-gray-200">
+                        <td class="p-3 text-center text-gray-500" colspan="3">Chưa có dữ liệu.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        const API_BASE_URL = 'https://xoso188.net/api/front/open/lottery/history/list/5/';
+
+        const LOTTERY_SCHEDULE = [
+            [
+                [
+                    { "name": "Khánh Hòa", "code": "khho" },
+                    { "name": "Kon Tum", "code": "kotu" },
+                    { "name": "Huế", "code": "thth" },
+                ], [
+                    { "name": "Kiên Giang", "code": "kigi" },
+                    { "name": "Tiền Giang", "code": "tigi" },
+                    { "name": "Đà Lạt", "code": "dalat" }
+                ]
+            ], [
+                [
+                    { "name": "Huế", "code": "thth" },
+                    { "name": "Phú Yên", "code": "phye" }
+                ], [
+                    { "name": "Cà Mau", "code": "cama" },
+                    { "name": "Đồng Tháp", "code": "doth" },
+                    { "name": "TP. Hồ Chí Minh", "code": "tphc" }
+                ]
+            ], [
+                [
+                    { "name": "Đắk Lắk", "code": "dalak" },
+                    { "name": "Quảng Nam", "code": "quna" }
+                ], [
+                    { "name": "Bạc Liêu", "code": "bali" },
+                    { "name": "Bến Tre", "code": "betr" },
+                    { "name": "Vũng Tàu", "code": "vuta" }
+                ]
+            ], [
+                [
+                    { "name": "Đà Nẵng", "code": "dana" },
+                    { "name": "Khánh Hòa", "code": "khho" }
+                ], [
+                    { "name": "Sóc Trăng", "code": "sotr" },
+                    { "name": "Đồng Nai", "code": "dona" },
+                    { "name": "Cần Thơ", "code": "cath" }
+                ]
+            ], [
+                [
+                    { "name": "Bình Định", "code": "bidi" },
+                    { "name": "Quảng Bình", "code": "qubi" },
+                    { "name": "Quảng Trị", "code": "qutr" }
+                ],
+                [
+                    { "name": "An Giang", "code": "angi" },
+                    { "name": "Bình Thuận", "code": "bith" },
+                    { "name": "Tây Ninh", "code": "tani" }
+                ]
+            ], [
+                [
+                    { "name": "Gia Lai", "code": "gila" },
+                    { "name": "Ninh Thuận", "code": "nith" }
+                ], [
+                    { "name": "Trà Vinh", "code": "trvi" },
+                    { "name": "Vĩnh Long", "code": "vilo" },
+                    { "name": "Bình Dương", "code": "bidu" }
+                ]
+            ], [
+                [
+                    { "name": "Đà Nẵng", "code": "dana" },
+                    { "name": "Quảng Ngãi", "code": "qung" },
+                    { "name": "Đắk Nông", "code": "dano" }
+                ], [
+                    { "name": "Hậu Giang", "code": "hagi" },
+                    { "name": "Bình Phước", "code": "biph" },
+                    { "name": "Long An", "code": "loan" },
+                    { "name": "TP. Hồ Chí Minh", "code": "tphc" }
+                ]
+            ]
+        ]
+
+        const mapData = {
+            0: [
+                [
+                    ["kontum", "kotu"], ["kotu", "kotu"], ["kt", "kotu"], ["ktu", "kotu"],
+                    ["khanhhoa", "khho"], ["khho", "khho"], ["kh", "khho"], ["kho", "khho"],
+                    ["hue", "thth"], ["thth", "thth"], ["tth", "thth"], ["h", "thth"],
+                ],
+                [
+                    ["kiengiang", "kigi"], ["kigi", "kigi"], ["kg", "kigi"], ["kgi", "kigi"],
+                    ["dalat", "dalat"], ["dala", "dalat"], ["dl", "dalat"], ["dla", "dalat"],
+                    ["tiengiang", "tigi"], ["tigi", "tigi"], ["tg", "tigi"], ["tgi", "tigi"],
+                ]
+            ],
+            1: [
+                [
+                    ["hue", "thth"], ["thth", "thth"], ["tth", "thth"], ["h", "thth"],
+                    ["phuyen", "phye"], ["phye", "phye"], ["py", "phye"], ["pye", "phye"],
+                ], [
+                    ["camau", "cama"], ["cama", "cama"], ["cm", "cama"], ["cma", "cama"],
+                    ["dongthap", "doth"], ["doth", "doth"], ["dt", "doth"], ["dth", "doth"],
+                    ["thanhphohcm", "tphc"], ["tphcm", "tphc"], ["tphc", "tphc"], ["hcm", "tphc"], ["tp", "tphc"],
+                ],
+            ],
+            2: [
+                [
+                    ["daklak", "dalak"], ["dalak", "dalak"], ["dl", "dalak"], ["dla", "dalak"],
+                    ["quangnam", "quna"], ["quangnam", "quna"], ["quna", "quna"], ["qn", "quna"], ["qna", "quna"],
+                ],
+                [
+                    ["baclieu", "bali"], ["bali", "bali"], ["bl", "bali"], ["bli", "bali"],
+                    ["bentre", "bitr"], ["bitr", "bitr"], ["btr", "bitr"], ["bt", "bitr"],
+                    ["vungtau", "vuta"], ["vuta", "vuta"], ["vt", "vuta"], ["vta", "vuta"],
+                ],
+            ],
+            3: [
+                [
+                    ["danang", "dana"], ["dana", "dana"], ["dn", "dana"], ["dna", "dana"],
+                    ["khanhhoa", "khho"], ["khho", "khho"], ["kh", "khho"], ["kho", "khho"],
+                ],
+                [
+                    ["soctrang", "sotr"], ["sotr", "sotr"], ["st", "sotr"], ["str", "sotr"],
+                    ["dongnai", "dona"], ["dona", "dona"], ["dn", "dona"], ["dna", "dona"],
+                    ["cantho", "cath"], ["cath", "cath"], ["ct", "cath"], ["cth", "cath"],
+                ]
+            ],
+            4: [
+                [
+                    ["binhdinh", "bidi"], ["bidi", "bidi"], ["bd", "bidi"], ["bdi", "bidi"],
+                    ["quangbinh", "qubi"], ["quangbinh", "qubi"], ["qubi", "qubi"], ["qb", "qubi"], ["qbi", "qubi"],
+                    ["quangtri", "qutr"], ["qutr", "qutr"], ["qt", "qutr"], ["qtr", "qutr"],
+                ],
+                [
+                    ["angiang", "angi"], ["angi", "angi"], ["ag", "angi"], ["agi", "angi"],
+                    ["binhthuan", "bith"], ["bith", "bith"], ["bth", "bith"], ["bt", "bith"], ["bth", "bith"],
+                    ["tayninh", "tani"], ["tani", "tani"], ["tn", "tani"], ["tna", "tani"],
+                ],
+            ],
+            5: [
+                [
+                    ["gialai", "gila"], ["gila", "gila"], ["gl", "gila"], ["gla", "gila"],
+                    ["ninhthuan", "nith"], ["nith", "nith"], ["nt", "nith"], ["nth", "nith"],
+                ],
+                [
+                    ["travinh", "trvi"], ["trvi", "trvi"], ["trv", "trvi"], ["tv", "trvi"], ["tvi", "trvi"],
+                    ["vinhlong", "vilo"], ["vilo", "vilo"], ["vl", "vilo"], ["vlo", "vilo"],
+                    ["binhduong", "bidu"], ["bidu", "bidu"], ["bd", "bidu"], ["bdu", "bidu"],
+                ],
+            ],
+            6: [
+                [
+                    ["quangngai", "qung"], ["qung", "qung"], ["qng", "qung"], ["qn", "qung"], ["qng", "qung"],
+                    ["daknong", "dano"], ["dano", "dano"], ["dno", "dano"], ["dakno", "dano"],
+                    ["danang", "dana"], ["dana", "dana"], ["dna", "dana"], ["dn", "dana"],
+                ],
+                [
+                    ["haugiang", "hagi"], ["hagi", "hagi"], ["hg", "hagi"], ["hgi", "hagi"],
+                    ["binhphuoc", "biph"], ["biph", "biph"], ["bp", "biph"], ["bph", "biph"],
+                    ["longan", "loan"], ["loan", "loan"], ["la", "loan"], ["lan", "loan"],
+                    ["thanhphohcm", "tphc"], ["tphcm", "tphc"], ["tphc", "tphc"], ["hcm", "tphc"], ["tp", "tphc"],
+                ]
+            ],
+        };
+
+        const processingConfigs = {
+            "a": {
+                "0": {
+                    "2": { num1: 2, indices: [23, 24, 25, 26] },
+                    "3": { num1: 3, indices: [20, 21, 22] }
+                },
+                "default": {
+                    "2": { num1: 2, indices: [17] },
+                    "3": { num1: 3, indices: [16] }
+                }
+            },
+            "b": {
+                "0": {
+                    "2": { num1: 2, indices: [0] },
+                    "3": { num1: 3, indices: [0] }
+                },
+                "default": {
+                    "2": { num1: 2, indices: [0] },
+                    "3": { num1: 3, indices: [0] }
+                }
+            },
+            "ab": {
+                "0": {
+                    "2": { num1: 2, indices: [0, 23, 24, 25, 26] },
+                    "3": { num1: 3, indices: [0, 20, 21, 22] }
+                },
+                "default": {
+                    "2": { num1: 2, indices: [0, 17] },
+                    "3": { num1: 3, indices: [0, 16] }
+                }
+            },
+            "c": {
+                "0": {
+                    "2": { num1: 2, indices: createArrayFromRange(0, 26) },
+                    "3": { num1: 3, indices: createArrayFromRange(0, 22) }
+                },
+                "default": {
+                    "2": { num1: 2, indices: createArrayFromRange(0, 17) },
+                    "3": { num1: 3, indices: createArrayFromRange(0, 16) }
+                },
+            },
+        };
+
+        const calculationConfigs = {
+            "a": {
+                key: {
+                    "2": "ab",
+                    "3": "xc",
+                },
+                xac: {
+                    "0": {
+                        "2": (data) => data[1][1] * data[1][2].length * 4,
+                        "3": (data) => data[1][1] * data[1][2].length * 3,
+                    },
+                    "default": (data) => data[1][1] * data[1][2].length
+                },
+                qc: {
+                    "0": {
+                        "2": (data, value) => data[1][1] * data[1][2].length * value / 100 * 4,
+                        "3": (data, value) => data[1][1] * data[1][2].length * value / 100 * 3,
+                    },
+                    "default": (data, value) => data[1][1] * data[1][2].length * value / 100
+                },
+                trung: {
+                    "2": (data, count) => data[1][1] * 70 * count,
+                    "3": (data, count) => data[1][1] * 600 * count,
+                }
+            },
+            "b": {
+                key: {
+                    "2": "ab",
+                    "3": "xc",
+                },
+                xac: {
+                    "default": (data) => data[1][1] * data[1][2].length
+                },
+                qc: {
+                    "default": (data, value) => data[1][1] * data[1][2].length * value / 100
+                },
+                trung: {
+                    "2": (data, count) => data[1][1] * 70 * count,
+                    "3": (data, count) => data[1][1] * 600 * count,
+                }
+            },
+            "c": {
+                key: {
+                    "2": "c2",
+                    "3": "c3",
+                },
+                xac: {
+                    "default": (data) => data[1][1] * data[1][2].length,
+                },
+                qc: {
+                    "default": (data, value) => data[1][1] * data[1][2].length * value
+                },
+                trung: {
+                    "2": (data, count) => data[1][1] * 80 * count,
+                    "3": (data, count) => data[1][1] * 600 * count,
+                }
+            },
+            "ab": {
+                key: {
+                    "2": "ab",
+                    "3": "xc",
+                },
+                xac: {
+                    "0": {
+                        "2": (data) => data[1][1] * data[1][2].length * 5,
+                        "3": (data) => data[1][1] * data[1][2].length * 4,
+                    },
+                    "default": (data) => data[1][1] * data[1][2].length * 2
+                },
+                qc: {
+                    "0": {
+                        "2": (data, value) => data[1][1] * data[1][2].length * value / 100 * 5,
+                        "3": (data, value) => data[1][1] * data[1][2].length * value / 100 * 4,
+                    },
+                    "default": (data, value) => data[1][1] * data[1][2].length * value / 100 * 2
+                },
+                trung: {
+                    "2": (data, count) => data[1][1] * 70 * count,
+                    "3": (data, count) => data[1][1] * 600 * count,
+                }
+            },
+            "xc": {
+                key: {
+                    "2": "ab",
+                    "3": "xc",
+                },
+                xac: {
+                    "0": {
+                        "2": (data) => data[1][1] * data[1][2].length * 5,
+                        "3": (data) => data[1][1] * data[1][2].length * 4,
+                    },
+                    "default": (data) => data[1][1] * data[1][2].length * 2
+                },
+                qc: {
+                    "0": {
+                        "2": (data, value) => data[1][1] * data[1][2].length * value / 100 * 5,
+                        "3": (data, value) => data[1][1] * data[1][2].length * value / 100 * 4,
+                    },
+                    "default": (data, value) => data[1][1] * data[1][2].length * value / 100 * 2
+                },
+                trung: {
+                    "2": (data, count) => data[1][1] * 70 * count,
+                    "3": (data, count) => data[1][1] * 600 * count,
+                }
+            },
+            "d": {
+                key: "d",
+                xac: {
+                    "default": (data) => data[1][1] * data[1][2].length * (data[1][2].length - 1) / 2,
+                },
+                qc: {
+                    "default": (data, value) => data[1][1] * data[1][2].length * (data[1][2].length - 1) * value / 2
+                },
+                trung: {
+                    "default": (data, count) => data[1][1] * 600 * count,
+                }
+            },
+        };
+
+        let dayData;
+        let todaySchedule;
+        let allFetchedData = [];
+        let inputData = [];
+        let finalResult = [];
+        let todayMap;
+        let locationMode = 0;
+        let targetLocation = [];
+
+        function getVietnamDate() {
+
+            const now = new Date();
+            const options = {
+                timeZone: 'Asia/Ho_Chi_Minh',
+                year: 'numeric', month: 'numeric', day: 'numeric',
+                hour: 'numeric', minute: 'numeric', second: 'numeric',
+                hour12: false
+            };
+            const vietnamDateTimeString = now.toLocaleString('en-US', options);
+            return new Date(vietnamDateTimeString);
+        }
+
+        function getTargetDateAndDay() {
+            const vietnamDate = getVietnamDate();
+            let targetDate = new Date(vietnamDate);
+            let targetDayOfWeek = targetDate.getDay();
+            const currentHour = vietnamDate.getHours();
+
+            const daysOfWeekNames = ["Chủ Nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+
+            let displayDay = daysOfWeekNames[targetDayOfWeek];
+            let infoText = `Đang kiểm tra kết quả cho: `;
+
+            if (currentHour < 19) {
+                targetDate.setDate(targetDate.getDate() - 1);
+                targetDayOfWeek = targetDate.getDay();
+                displayDay = daysOfWeekNames[targetDayOfWeek];
+                infoText += `${displayDay} (ngày ${targetDate.toLocaleDateString('vi-VN')})`;
+            } else {
+                infoText += `${displayDay} (ngày ${targetDate.toLocaleDateString('vi-VN')})`;
+            }
+
+            const formatDate = (date) => {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            };
+            const tommorow = new Date();
+            tommorow.setDate(targetDate.getDate() + 1)
+
+            $('#today').next('label').text(formatDate(targetDate));
+            $('#tommorow').next('label').text(formatDate(tommorow));
+            return { date: targetDate, dayOfWeek: targetDayOfWeek, displayDay: displayDay, infoText: infoText };
+        }
+
+        async function fetchLotteryData(lotteryCode, today) {
+            const apiUrl = `${API_BASE_URL}${lotteryCode}`;
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                if (data.success && data.t && data.t.issueList && data.t.issueList.length > 0) {
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0');
+                    const day = String(today.getDate()).padStart(2, '0');
+                    const correctDay = data.t.issueList[0].openTime.slice(0, 10) === `${year}-${month}-${day}`;
+                    if (correctDay) {
+                        return data.t.issueList[0].detail;
+                    } else {
+                        return null
+                    }
+                }
+                return null;
+            } catch (error) {
+                console.error(`Error fetching data for ${lotteryCode}:`, error);
+                return null;
+            }
+        }
+
+        function splitStringIntoNumbers(inputString) {
+            const allNumbers = [];
+            const segments = inputString.replace(/\[|\]/g, '').split('","');
+            segments.forEach(segment => {
+                let cleanedSegment = segment.replace(/^"|"$/g, '');
+                const numberStrings = cleanedSegment.split(',');
+                numberStrings.forEach(numStr => {
+                    if (numStr.trim() !== '') {
+                        allNumbers.push(parseInt(numStr.trim(), 10));
+                    }
+                });
+            });
+            return allNumbers;
+        }
+
+        function cleanUpString(inputText) {
+            inputText = inputText.toLowerCase();
+            inputText = inputText.replace(/đ/g, 'd');
+            inputText = inputText.replace(/₫/g, 'd');
+            inputText = inputText.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+            inputText = inputText.replace(/[^a-z0-9]/g, ' ');
+            inputText = inputText.trim();
+            return inputText;
+        }
+
+        function processInput(inputText) {
+            inputText = cleanUpString(inputText);
+
+            const splitUp = inputText.split(' ');
+            let result = [];
+            for (let i = 0; i < splitUp.length; ++i) {
+                const word = splitUp[i];
+                const match = word.match(/(\d+)t(\d+)/i);
+                const match2 = word.match(/(\d+)k(\d+)/i);
+                if (specialRetractInput(result[result.length - 1], word)) {
+                    result[result.length - 1] += word
+                } else if (match) {
+                    for (let i = parseInt(match[1], 10); i <= parseInt(match[2], 10); ++i) {
+                        result.push(String(i).padStart(match[1].length, '0'));
+                    }
+                } else if (match2) {
+                    for (let i = parseInt(match2[1], 10); i <= parseInt(match2[2], 10); i += 10) {
+
+                        result.push(String(i).padStart(match2[1].length, '0'));
+                    }
+                } else {
+                    result.push(word);
+                }
+            }
+            return result;
+        }
+
+        function isNumericString(str) {
+            if (typeof str !== 'string' || str.trim() === '') {
+                return false;
+            }
+            return /^\d+$/.test(str.trim());
+        }
+
+        function isType(str) {
+            const typeRegex = /[A-Za-z]+[0-9]+/i;
+            if (typeRegex.test(str)) {
+                return true;
+            }
+        }
+
+        function specialRetractInput(lastWord, str) {
+            if (isNumericString(str) && ["a", "b", "ab", "c", "d", "da", "xc"].includes(lastWord)) {
+                return true;
+            } else if (["mt", "mn"].includes(str) && lastWord === "3d") {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function processNumbers(num1, arrayOfIndices, data) {
+            let selectedData = [];
+            if (!Array.isArray(data) || data.length === 0) {
+                return [];
+            }
+            if (!Array.isArray(arrayOfIndices) || arrayOfIndices.length === 0) {
+                return [];
+            }
+
+            for (let i = 0; i < arrayOfIndices.length; i++) {
+                const indexToSelect = arrayOfIndices[i];
+                if (indexToSelect >= 0 && indexToSelect < data.length && data[indexToSelect] !== undefined) {
+                    selectedData.push(data[indexToSelect]);
+                } else {
+                    console.warn(`Cảnh báo: Chỉ số ${indexToSelect} trong arrayOfIndices nằm ngoài phạm vi hoặc phần tử không xác định.`);
+                }
+            }
+
+            const processedResults = selectedData.map(num => {
+                if (num1 <= 0) {
+                    return '';
+                }
+                let numStr = String(num);
+                let lastChars = numStr.slice(-num1);
+                while (lastChars.length < num1) {
+                    lastChars = '0' + lastChars;
+                }
+                return lastChars;
+            });
+            return processedResults;
+        }
+
+        function processLocationCode(str) {
+            if (str === null || str === undefined) {
+                return null;
+            }
+            const cleanedStr = str.trim().toLowerCase();
+            if (targetLocation.has(cleanedStr)) {
+                return targetLocation.get(cleanedStr);
+            } else {
+                return cleanedStr;
+            }
+        }
+
+        function processLocationData(strArray) {
+            const result = [];
+            const result2 = [];
+
+            strArray.forEach(str => {
+                const target = processLocationCode(str);
+                if (isNumericString(str[0]) || ["mtr", "mt", "mn"].includes(str)) {
+                    result.push(...allFetchedData[locationMode]);
+                    result2.push(...allFetchedData[locationMode].map(item => item.name));
+                } else {
+                    for (const s of allFetchedData[locationMode]) {
+                        const code = processLocationCode(str);
+                        if (code === s.code) {
+                            result.push(s);
+                            result2.push(s.name);
+                        }
+                    }
+                }
+            });
+            return { result: result, result2: result2 };
+        }
+
+        function createArrayFromRange(start, end) {
+            return Array.from({ length: (end - start) + 1 }, (_, i) => start + i);
+        }
+
+        function formatCurrencyDot(amount) {
+            const numericAmount = parseFloat(amount);
+            if (isNaN(numericAmount)) {
+                return amount;
+            }
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'decimal',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(numericAmount);
+        };
+
+        function tongKetTable() {
+            const mapResult = new Map([
+                ["ab", 0], ["ab1", 0], ["ab2", 0],
+                ["xc", 0], ["xc1", 0], ["xc2", 0],
+                ["c2", 0], ["c21", 0], ["c22", 0],
+                ["c3", 0], ["c31", 0], ["c32", 0],
+                ["d", 0], ["d1", 0], ["d2", 0],
+            ]);
+
+            for (const [, data] of finalResult.entries()) {
+                const config = calculationConfigs[data[1][0]];
+                let numberLength = data[1][2][0].length;
+
+                let id = data[1][0];
+                let id2 = id;
+                if (id2 === "c") {
+                    id2 += numberLength;
+                } else if (id2 === "a" || id2 === "b" || id2 === "xc") {
+                    id2 = "ab";
+                }
+
+                const value = $("#" + id2).val();
+                let key;
+
+                if (id.startsWith("d")) {
+                    key = "d";
+                } else {
+                    key = config.key[numberLength];
+                }
+                if (locationMode === 0 && (id.startsWith("a") || id === "xc")) {
+                    mapResult.set(key, mapResult.get(key) + config.xac["0"][numberLength](data) * data[0].length);
+                    mapResult.set(key + "1", mapResult.get(key + "1") + config.qc["0"][numberLength](data, value) * data[0].length);
+                } else {
+                    mapResult.set(key, mapResult.get(key) + config.xac["default"](data) * data[0].length);
+                    mapResult.set(key + "1", mapResult.get(key + "1") + config.qc["default"](data, value) * data[0].length);
+                }
+
+                if (id.startsWith("d")) {
+                    const counter = data[0].reduce((acc, val) => {
+                        const uniqueElements = new Set(val);
+                        const n = uniqueElements.size;
+                        return acc + n * (n - 1) / 2;
+                    }, 0);
+                    mapResult.set(key + "2", mapResult.get(key + "2") + config.trung["default"](data, counter));
+                } else {
+                    const counter = data[0].reduce((acc, val) => acc + val.length, 0);
+                    mapResult.set(key + "2", mapResult.get(key + "2") + config.trung[numberLength](data, counter));
+                }
+            }
+
+            const $summaryTableBody = $('#summaryTableBody');
+            $summaryTableBody.empty();
+
+            const keys = [...mapResult.keys()];
+            const values = [...mapResult.values()];
+            let tong1 = 0;
+            let tong2 = 0;
+
+            for (let i = 0; i < values.length; i += 3) {
+                tong1 += values[i + 1];
+                tong2 += values[i + 2];
+                const rowHtml = `
+            <tr class="bg-white hover:bg-gray-50 transition duration-150 ease-in-out">
+                <td class="border border-gray-200 border border-gray-200 p-3 text-center whitespace-nowrap">${keys[i].toUpperCase()}:${formatCurrencyDot(values[i])}</td>
+                <td class="border border-gray-200 border border-gray-200 p-3 text-center whitespace-nowrap">${formatCurrencyDot(values[i + 1])}</td>
+                <td class="border border-gray-200 border border-gray-200 p-3 text-center whitespace-nowrap">${formatCurrencyDot(values[i + 2])}</td>
+            </tr>
+        `;
+                $summaryTableBody.append(rowHtml);
+            }
+
+            const rowHtmlSum = `
+        <tr class="bg-white border-b border-gray-200 hover:bg-gray-50 transition duration-150 ease-in-out">
+            <td class="border border-gray-200 p-3 text-center font-bold whitespace-nowrap">Tổng cộng:</td>
+            <td class="border border-gray-200 border border-gray-200 p-3 text-center whitespace-nowrap">${formatCurrencyDot(tong1)}</td>
+            <td class="border border-gray-200 border border-gray-200 p-3 text-center whitespace-nowrap">${formatCurrencyDot(tong2)}</td>
+        </tr>
+    `;
+            const rowHtmlSum2 = `
+        <tr class="bg-white border-b border-gray-200 hover:bg-gray-50 transition duration-150 ease-in-out rounded-b-lg">
+            <td class="border border-gray-200 p-3 text-center font-bold whitespace-nowrap rounded-bl-lg" colspan="2">${(tong2 - tong1) > 0 ? 'Bù:' : 'Thu:'}</td>
+            <td class="border border-gray-200 border border-gray-200 p-3 text-center whitespace-nowrap rounded-br-lg">${formatCurrencyDot(tong2 - tong1)}</td>
+        </tr>
+    `;
+            $summaryTableBody.append(rowHtmlSum);
+            $summaryTableBody.append(rowHtmlSum2);
+        }
+
+        function chiTietTable() {
+            let xac = [];
+            let qc = [];
+            let trung = [];
+
+            for (const [, data] of finalResult.entries()) {
+                let currentXac = 0;
+                let currentQC = 0;
+                let currentTrung = 0;
+                const config = calculationConfigs[data[1][0]];
+                let numberLength = data[1][2][0].length;
+
+                let id = data[1][0];
+                let id2 = id;
+
+                if (id2 === "c") {
+                    id2 += numberLength;
+                } else if (id2 === "a" || id2 === "b" || id2 === "xc") {
+                    id2 = "ab";
+                }
+
+                const value = $("#" + id2).val();
+
+                if (locationMode === 0 && (id.startsWith("a") || id === "xc")) {
+                    currentXac += config.xac["0"][numberLength](data) * data[0].length;
+                    currentQC += config.qc["0"][numberLength](data, value) * data[0].length;
+                } else {
+                    currentXac += config.xac["default"](data) * data[0].length;
+                    currentQC += config.qc["default"](data, value) * data[0].length;
+                }
+
+                if (id.startsWith("d")) {
+                    const counter = data[0].reduce((acc, val) => {
+                        const uniqueElements = new Set(val);
+                        const n = uniqueElements.size;
+                        return acc + n * (n - 1) / 2;
+                    }, 0);
+                    currentTrung += config.trung["default"](data, counter);
+                } else {
+                    const counter = data[0].reduce((acc, val) => acc + val.length, 0);
+                    currentTrung += config.trung[numberLength](data, counter);
+                }
+                xac.push(currentXac);
+                qc.push(currentQC);
+                trung.push(currentTrung);
+            }
+
+            const $detailedTableBody = $('#detailedTableBody');
+            $detailedTableBody.empty();
+
+            for (let i = 0; i < finalResult.length; i++) {
+                const dataContentHtml = finalResult[i][1][2].join(' - ');
+
+                const dataRowHtml = `
+            <tr class="bg-white border-2 border-blue-600 border-b-0 hover:bg-gray-50 transition duration-150 ease-in-out">
+                <td class="border border-gray-200 p-3 text-center whitespace-nowrap" colspan="3">${dataContentHtml}</td>
+            </tr>
+        `;
+
+                let extraDetailRowHtml = ``;
+                for (const [index, dataItem] of finalResult[i][1][3].entries()) {
+                    let rowCellsHtml = '';
+                    const location = dataItem;
+                    const arrayToJoin = finalResult[i][0][index];
+                    rowCellsHtml += `
+                    <td class="border border-gray-200 p-3 text-center whitespace-nowrap">${location}</td>
+                    <td class="border border-gray-200 p-3 text-center whitespace-nowrap" colspan="2">${arrayToJoin && arrayToJoin.length > 0 ? arrayToJoin.join(' - ') : "&#x2715;"}</td>
+                `;
+                    extraDetailRowHtml += `
+                    <tr class="bg-white border-2 border-blue-600 border-y-0 hover:bg-gray-50 transition duration-150 ease-in-out">
+                        ${rowCellsHtml}
+                    </tr>
+                `;
+                }
+
+                const rowHtml = `
+            <tr class="${i === finalResult.length - 1 ? "rounded-b-lg" : ""} bg-white border-2 border-blue-600 border-t-0 hover:bg-gray-50 transition duration-150 ease-in-out">
+                <td class="border border-gray-200 p-3 text-center whitespace-nowrap">${finalResult[i][1][0].toUpperCase()}:${formatCurrencyDot(xac[i])}</td>
+                <td class="border border-gray-200 p-3 text-center whitespace-nowrap">${formatCurrencyDot(qc[i])}</td>
+                <td class="border border-gray-200 p-3 text-center whitespace-nowrap">${formatCurrencyDot(trung[i])}</td>
+            </tr>
+           `;
+                $detailedTableBody.append(dataRowHtml);
+                $detailedTableBody.append(extraDetailRowHtml);
+                $detailedTableBody.append(rowHtml);
+            }
+        }
+
+        const updateFetchData = async (givenDayData) => {
+            allFetchedData = [];
+            todaySchedule = LOTTERY_SCHEDULE[givenDayData.getDay()];
+            todaySchedule.unshift([{ "name": "Miền Bắc", "code": "miba" }]);
+            let locationInfo = "Dữ liệu hôm nay: ";
+            for (const [index1, scheduleGroup] of todaySchedule.entries()) {
+                const innerFetchedDataArray = [];
+                for (const [index2, s] of scheduleGroup.entries()) {
+                    const fetchedData = await fetchLotteryData(s.code, givenDayData);
+                    if (!fetchedData) {
+                        continue;
+                    }
+                    innerFetchedDataArray.push({ code: s.code, data: splitStringIntoNumbers(fetchedData), name: s.name });
+                    locationInfo += s.name
+                    if (index1 != (todaySchedule.length - 1) || index2 != (scheduleGroup.length - 1)) {
+                        locationInfo += ", ";
+                    }
+                }
+                allFetchedData.push(innerFetchedDataArray);
+            }
+
+            todayMap = mapData[givenDayData.getDay()];
+            todayMap.unshift([["miba", "miba"], ["mb", "miba"], ["mienbac", "miba"]]);
+            targetLocation = new Map(todayMap[0]);
+
+            $('#selfEdit').removeAttr("disabled")
+            $('#processButton').removeAttr("disabled")
+            $('#today').removeAttr("disabled")
+            $('#tommorow').removeAttr("disabled")
+            $("#processButton").text('Xong');
+            $("#locationInfo").text(locationInfo);
+            $('input[name="selectLocation"]').removeAttr('disabled');
+        }
+
+        $(document).ready(async function () {
+            dayData = getTargetDateAndDay();
+            updateFetchData(dayData.date);
+        });
+
+        $('input[type="radio"][name="selectLocation"]').change(function () {
+            locationMode = $(this).val();
+            targetLocation = new Map(todayMap[locationMode]);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const textInput = document.getElementById('textInput');
+            const processButton = document.getElementById('processButton');
+            const deleteButton = document.getElementById('deleteButton');
+            const tongketButton = document.getElementById('tongketButton');
+            const selfEdit = document.getElementById('selfEdit');
+            processButton.addEventListener('click', () => {
+                finalResult = [];
+                inputData = processInput(textInput.value);
+                let locationDatas = [];
+                let numberDatas = [];
+                let calculated = false;
+                inputData.forEach(input => {
+                    if (isType(input)) {
+                        const { result, result2 } = processLocationData(locationDatas);
+                        let processedData = result;
+                        let updatedLocationDatas = result2;
+                        const match = input.match(/^([a-zA-Z]+)(\d*)$/);
+                        let type = match[1];
+
+                        if (type === "da" || type === "d") {
+                            numberDatas = [...new Set(numberDatas)];
+                            type = "d"
+                        }
+
+                        const cost = match[2];
+                        const numberLength = numberDatas[0].length
+                        processedData = processedData.map((data, index) => {
+                            let checkType = type;
+                            if (checkType === "d") {
+                                checkType = "c";
+                            } else if (checkType === "xc") {
+                                checkType = "ab"
+                            }
+                            return processNumbers(numberLength, processingConfigs[checkType][locationMode == 0 ? 0 : "default"][numberLength].indices, data.data);
+                        })
+
+                        const finalData = processedData.map(data => {
+                            const filteredItems = [];
+                            data.forEach(item => {
+                                const occurrences = numberDatas.filter(num => num === item).length;
+                                if (occurrences >= 2) {
+                                    for (let i = 0; i < occurrences; i++) {
+                                        filteredItems.push(item);
+                                    }
+                                } else if (occurrences === 1) {
+                                    filteredItems.push(item);
+                                }
+                            });
+                            return filteredItems;
+                        });
+                        finalResult.push([finalData, [type, cost, numberDatas, updatedLocationDatas]]);
+                        calculated = true;
+                    } else if (isNumericString(input)) {
+                        switch (calculated) {
+                            case true: {
+                                calculated = false;
+                                numberDatas = [input];
+                                break;
+                            } default: {
+                                numberDatas.push(input)
+                            }
+                        }
+                    } else {
+                        switch (calculated) {
+                            case true: {
+                                calculated = false;
+                                locationDatas = [input]
+                                numberDatas = [];
+                                break;
+                            } default: {
+                                locationDatas.push(input)
+                            }
+                        }
+                    }
+                })
+                tongKetTable();
+                chiTietTable();
+            });
+
+            deleteButton.addEventListener('click', () => {
+                textInput.value = '';
+            })
+
+            selfEdit.addEventListener('click', () => {
+                const data = cleanUpString(textInput.value);
+                let softScannedArray = [];
+                const preNumberLocation = ["2", "3", "4"];
+                const postNumberLocation = ["d", "dai", "dmn", "dmt", "dmtr"];
+                const typeCode = ["a", "b", "ab", "c", "xc", "d", "da"];
+
+                const finalNumberLocation = preNumberLocation.flatMap(i1 => {
+                    return postNumberLocation.map(i2 => i1 + i2);
+                }).concat("mn", "mt", "mtr");
+
+                function isTypeCode(item) {
+                    if (typeof item !== 'string' || item.length === 0) {
+                        return false;
+                    }
+                    for (const code of typeCode) {
+                        if (item.startsWith(code)) {
+                            const numberPart = item.substring(code.length);
+                            if (isNumericString(numberPart)) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+
+                function padStart(num, targetLength) {
+                    return String(num).padStart(targetLength, '0');
+                }
+
+                for (const char of data) {
+                    const prevLast = softScannedArray[softScannedArray.length - 1];
+                    const charIsNumeric = isNumericString(char);
+                    const prevLastIsNumeric = isNumericString(prevLast);
+                    if (char === " ") {
+                        softScannedArray.push(char);
+                    } else if (prevLast !== undefined && prevLast !== " " && charIsNumeric === prevLastIsNumeric) {
+                        softScannedArray[softScannedArray.length - 1] += char;
+                    } else {
+                        if (prevLast !== undefined && prevLast !== " ") {
+                            softScannedArray.push(" ");
+                        }
+                        softScannedArray.push(char);
+                    }
+                }
+
+                softScannedArray = softScannedArray.filter(item => item !== " ");
+
+                for (let i = 0; i < softScannedArray.length - 1; i++) {
+                    const char = softScannedArray[i];
+                    const nextChar = softScannedArray[i + 1];
+                    const prevChar = softScannedArray[i - 1];
+                    if (preNumberLocation.includes(char) && postNumberLocation.includes(nextChar)) {
+                        softScannedArray[i] = char + nextChar;
+                        softScannedArray.splice(i + 1, 1);
+                        i--;
+                    } else if (["t", "k"].includes(char) && isNumericString(prevChar) && isNumericString(nextChar)) {
+                        const prevNum = parseInt(prevChar);
+                        const nextNum = parseInt(nextChar);
+                        const numbersToAdd = [];
+
+                        if (prevNum % 10 === nextNum % 10) {
+                            for (let j = prevNum; j <= nextNum; j += 10) {
+                                numbersToAdd.push(padStart(j, prevChar.length));
+                            }
+                        } else {
+                            for (let j = prevNum; j <= nextNum; j++) {
+                                numbersToAdd.push(padStart(j, prevChar.length));
+                            }
+                        }
+
+                        softScannedArray.splice(i - 1, 3, ...numbersToAdd);
+                        i = (i - 1) + numbersToAdd.length - 1;
+                    } else if (typeCode.includes(char) && isNumericString(nextChar)) {
+                        const next2Char = softScannedArray[i + 2];
+                        const prev2Char = softScannedArray[i - 2];
+                        const next3Char = softScannedArray[i + 3];
+                        if (["d", "da"].includes(char) && isNumericString(prevChar) && !isNumericString(prev2Char)
+                            && isNumericString(next2Char) && !isNumericString(next3Char)) {
+                            softScannedArray[i] = nextChar;
+                            softScannedArray[i + 1] = char;
+                        } else {
+                            softScannedArray[i] = char + nextChar;
+                            softScannedArray.splice(i + 1, 1);
+                            i--;
+                        }
+                    }
+                }
+                const itemsRemoved = [];
+                const styledParts = [];
+                const filteredResultArray = softScannedArray.filter(item => {
+                    const shouldKeep = (isNumericString(item) && (item.length == 2 || item.length == 3)) ||
+                        finalNumberLocation.includes(item) ||
+                        targetLocation.has(item) ||
+                        /[0-9]+t[0-9]+/.test(item) ||
+                        /[0-9]+k[0-9]+/.test(item) ||
+                        isTypeCode(item);
+                    if (!shouldKeep) {
+                        itemsRemoved.push(item);
+                        styledParts.push(`<span class="text-red-600">${item}</span>`);
+                    } else {
+                        styledParts.push(item);
+                    }
+                    return shouldKeep;
+                });
+
+                const removedItemsDisplay = document.getElementById('removedItemsDisplay');
+                removedItemsDisplay.classList.remove('text-red-600');
+                removedItemsDisplay.textContent = "";
+
+                if (styledParts.length > 0) {
+                    removedItemsDisplay.innerHTML = "Original (removed parts in red): " + styledParts.join(" ");
+                } else {
+                    removedItemsDisplay.textContent = "No items to display or filter.";
+                }
+                $('#removalContainer').removeClass("hidden")
+
+                const finalResult = [];
+                const numbers = [[], []];
+                let added = false;
+
+                const resetNumbers = () => {
+                    if (!added) {
+                        return;
+                    }
+                    numbers[0].length = 0;
+                    numbers[1].length = 0;
+                    added = false;
+                }
+                filteredResultArray.map(data => {
+                    if (isNumericString(data)) {
+                        if (data.length == 2 || data.length == 3) {
+                            resetNumbers();
+                            numbers[data.length - 2].push(data);
+                        }
+                    } else if (isTypeCode(data)) {
+                        if (numbers[0].length > 0) {
+                            finalResult.push(...numbers[0]);
+                            finalResult.push(data);
+                        }
+                        if (numbers[1].length > 0) {
+                            finalResult.push(...numbers[1]);
+                            finalResult.push(data);
+                        }
+                        added = true;
+                    } else {
+                        if (["mn", "mt", "mtr"].includes(data) && ["2d", "3d", "4d", "2dai", "3dai", "4dai"].includes(finalResult[finalResult.length - 1])) {
+                            finalResult[finalResult.length - 1] = finalResult[finalResult.length - 1].replace("ai", "") + data;
+                        } else {
+                            finalResult.push(data);
+                        }
+                        resetNumbers();
+                    }
+                })
+
+                textInput.value = finalResult.join(" ");
+                return;
+            });
+
+            $('input[name="dateSelection"]').on('change', function async() {
+                $('#selfEdit').attr("disabled", true)
+                $('#processButton').attr("disabled", true)
+                $('#today').attr("disabled", true)
+                $('#tommorow').attr("disabled", true)
+                $("#processButton").text('Đợi chút');
+                $("#locationInfo").text("Đang tìm kiếm dữ liệu . . .");
+                $('input[name="selectLocation"]').attr('disabled', true);
+                if ($(this).val() == 1) {
+                    const tommorow = new Date();
+                    tommorow.setDate(dayData.date.getDate() + 1);
+                    updateFetchData(tommorow);
+                } else {
+                    updateFetchData(dayData.date);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
