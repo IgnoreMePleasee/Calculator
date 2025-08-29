@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bảng Tính</title>
+    <title>Bảng Tính v2.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -235,7 +235,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script>
-        const API_BASE_URL = 'https://xoso188.net/api/front/open/lottery/history/list/5/';
+        // const API_BASE_URL = 'https://xoso188.net/api/front/open/lottery/history/list/5/';
+        const API_BASE_URL = 'https://xoso188.net/api/front/open/lottery/history/low/page?page=1&pageSize=1&gameCode=';
 
         const LOTTERY_SCHEDULE = [
             [
@@ -618,13 +619,13 @@
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const data = await response.json();
-                if (data.success && data.t && data.t.issueList && data.t.issueList.length > 0) {
+                if (data.success && data.rows && data.rows.length > 0) {
                     const year = today.getFullYear();
                     const month = String(today.getMonth() + 1).padStart(2, '0');
                     const day = String(today.getDate()).padStart(2, '0');
-                    const correctDay = data.t.issueList[0].openTime.slice(0, 10) === `${year}-${month}-${day}`;
+                    const correctDay = data.rows[0].openTime.slice(0, 10) === `${year}-${month}-${day}`;
                     if (correctDay) {
-                        return data.t.issueList[0].detail;
+                        return data.rows[0].detail;
                     } else {
                         return null
                     }
@@ -979,6 +980,7 @@
                 const innerFetchedDataArray = [];
                 for (const [index2, s] of scheduleGroup.entries()) {
                     const fetchedData = await fetchLotteryData(s.code, givenDayData);
+                    console.log(fetchedData);
                     if (!fetchedData) {
                         continue;
                     }
