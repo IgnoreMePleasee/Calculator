@@ -550,10 +550,11 @@
                 const response = await fetch(apiUrl, {
                     method: 'GET',
                     headers: {
-                        'X-API-Key': API_KEY + "2753803ed2e944ad3863b9fe7364f06cc24411c04f92df7e1fa88cd5d7841d93",
+                        'X-API-Key': API_KEY + "0e514952bfe413954fdf1d8a4a3a2ba971a2524130003392eb8e3b9b9ee24dc0",
                         'Content-Type': 'application/json'
                     }
                 });
+                
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
